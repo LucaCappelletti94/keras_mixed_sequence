@@ -132,8 +132,8 @@ object.
     from keras_mixed_sequence import MixedSequence
 
     sequence = MixedSequence(
-        X,
-        {
+        x=X,
+        y={
             "output1": y1,
             "output2": y2
         },
