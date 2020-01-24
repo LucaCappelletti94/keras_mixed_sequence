@@ -1,7 +1,7 @@
 from typing import Dict, Union, Tuple
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from .utils import sequence_length, NumpySequence
+from .utils import NumpySequence
 
 
 class MixedSequence(Sequence):
