@@ -66,10 +66,6 @@ class MixedSequence(Sequence):
         # is now a sequence with the same length.
         for dictionary in (x, y):
             for _, value in dictionary.items():
-                if not isinstance(value, Sequence):
-                    raise ValueError(
-                        "Given parameters contain invalid keras Sequence."
-                    )
                 if len(self) != len(value):
                     raise ValueError(
                         "One or given sub-Sequence does not match length of other Sequences."

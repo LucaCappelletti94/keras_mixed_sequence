@@ -1,10 +1,12 @@
+"""Testing if proper exceptions are raised when wrong parameters are passed."""
 import numpy as np
+import pytest
 from keras_mixed_sequence import MixedSequence
 from keras_mixed_sequence.utils import NumpySequence
-import pytest
 
 
 def test_misuse():
+    """Testing if proper exceptions are raised when wrong parameters are passed."""
     with pytest.raises(ValueError):
         MixedSequence(
             NumpySequence(np.random.randint(2, size=(100, 10)), batch_size=32),
