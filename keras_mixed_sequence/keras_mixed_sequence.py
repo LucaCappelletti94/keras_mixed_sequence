@@ -46,6 +46,7 @@ class MixedSequence(Sequence):
         for candidate in (*x.values(), *y.values()):
             if isinstance(candidate, Sequence):
                 self._sequence_length = len(candidate)
+                break
 
         # Veryfing that at least a sequence was provided
         if self._sequence_length is None:
