@@ -36,15 +36,17 @@ def build_model():
 def test_keras_mixed_sequence():
     model = build_model()
     batch_size = 32
-    X = np.random.randint(2, size=(100, 10))
-    y = {
-        "output1": NumpySequence(
-            np.random.randint(2, size=(100, 10)),
-            batch_size=batch_size
-        ),
-        "output2": np.random.randint(2, size=(100, 10))
-    }
-    sequence = MixedSequence(X, y, batch_size=batch_size)
+    sequence = MixedSequence(
+        np.random.randint(2, size=(100, 10)),
+        {
+            "output1": NumpySequence(
+                np.random.randint(2, size=(100, 10)),
+                batch_size=batch_size
+            ),
+            "output2": np.random.randint(2, size=(100, 10))
+        },
+        batch_size=batch_size
+    )
     model.fit_generator(
         sequence,
         steps_per_epoch=sequence.steps_per_epoch,
