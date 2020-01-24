@@ -28,12 +28,13 @@ def find_version(*file_paths):
 
 __version__ = find_version("keras_mixed_sequence", "__version__.py")
 
-test_deps =[
+test_deps = [
     "pytest",
     "pytest-cov",
     "coveralls",
     "validate_version_code",
-    "codacy-coverage"
+    "codacy-coverage",
+    "silence_tensorflow"
 ]
 
 extras = {
