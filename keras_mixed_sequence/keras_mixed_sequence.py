@@ -35,10 +35,10 @@ class MixedSequence(Sequence):
         Return new MixedSequence object.
         """
         # Casting to dictionary if not one already
-        if not isinstance(x, Dict):
-            x = dict(enumerate((x,)))
-        if not isinstance(y, Dict):
-            y = dict(enumerate((y,)))
+        x, y = [
+            e if isinstance(e, Dict) else {0: e}
+            for e in (x, y)
+        ]
 
         # Retrieving sequence length
         self._sequence_length = None
