@@ -56,3 +56,11 @@ def test_keras_mixed_sequence():
         workers=4,
         shuffle=True
     )
+
+    model.fit_generator(
+        sequence,
+        steps_per_epoch=sequence.steps_per_epoch,
+        epochs=2,
+        verbose=0,
+        shuffle=True
+    )
