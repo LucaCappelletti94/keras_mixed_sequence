@@ -41,7 +41,13 @@ class NumpySequence(Sequence):
 
     """
 
-    def __init__(self, array: np.ndarray, batch_size: int):
+    def __init__(
+        self,
+        array: np.ndarray,
+        batch_size: int,
+        seed: int = 42,
+        elapsed_epochs: int = 0,
+    ):
         """Return new NumpySequence object.
 
         Parameters
@@ -50,16 +56,23 @@ class NumpySequence(Sequence):
             Numpy array to be split into batches.
         batch_size: int,
             Batch size for the current Sequence.
+        seed: int = 42,
+            Starting seed to use if shuffling the dataset.
+        elapsed_epochs: int = 0,
+            Number of elapsed epochs to init state of generator.
 
         Returns
         --------------
         Return new NumpySequence object.
         """
         self._array, self._batch_size = array, batch_size
+        self._seed, self._elapsed_epochs = seed, elapsed_epochs
 
     def on_epoch_end(self):
-        """Shuffle private numpy array object on every epoch end."""
-        np.random.shuffle(self._array)
+        """Shuffle private bed object on every epoch end."""
+        state = np.random.RandomState(seed=self._seed + self._elapsed_epochs)
+        self._elapsed_epochs += 1
+        state.shuffle(self._array)
 
     def __len__(self) -> int:
         """Return length of Sequence."""
