@@ -69,7 +69,7 @@ class NumpySequence(Sequence):
         self._seed, self._elapsed_epochs = seed, elapsed_epochs
 
     def on_epoch_end(self):
-        """Shuffle private bed object on every epoch end."""
+        """Shuffle private numpy array on every epoch end."""
         state = np.random.RandomState(seed=self._seed + self._elapsed_epochs)
         self._elapsed_epochs += 1
         state.shuffle(self._array)
