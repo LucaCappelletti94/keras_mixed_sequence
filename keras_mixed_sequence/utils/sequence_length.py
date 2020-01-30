@@ -1,4 +1,3 @@
-import numpy as np
 from typing import List
 
 
@@ -16,6 +15,4 @@ def sequence_length(sequence: List, batch_size: int) -> int:
     -----------
     Return number of batch size contained in given sequence, by excess.
     """
-    return int(np.ceil(
-        len(sequence) / float(batch_size)
-    ))
+    return len(sequence) // batch_size
