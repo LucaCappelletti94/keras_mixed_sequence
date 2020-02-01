@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: keras-mixed-sequence
-Version: 1.0.4
+Version: 1.0.5
 Summary: Lazily loading mixed sequences using Keras Sequence, focused on multi-task models.
 Home-page: https://github.com/LucaCappelletti94/keras_mixed_sequence
 Author: Luca Cappelletti
@@ -24,7 +24,7 @@ Description: keras_mixed_sequence
         
         Tests Coverage
         ----------------------------------------------
-        Since some software handling coverages sometime get
+        Since some software handling coverages sometimes get
         slightly different results, here's three of them:
         
         |coveralls| |sonar_coverage| |code_climate_coverage|
@@ -51,7 +51,7 @@ Description: keras_mixed_sequence
         
         Then we proceed to load or otherwise create the training data.
         Here there will be listed, in the future, some custom
-        Sequence objects that have been created for the porpose
+        Sequence objects that have been created for the purpose
         of being used alongside this library.
         
         .. code:: python
@@ -123,7 +123,7 @@ Description: keras_mixed_sequence
         
         Then we proceed to load or otherwise create the training data.
         Here there will be listed, in the future, some custom
-        Sequence objects that have been created for the porpose
+        Sequence objects that have been created for the purpose
         of being used alongside this library.
         
         .. code:: python
@@ -192,7 +192,7 @@ Description: keras_mixed_sequence
             :target: https://pepy.tech/badge/keras-mixed-sequence
             :alt: Pypi total project downloads
         
-        .. |codacy|  image:: https://api.codacy.com/project/badge/Grade/249884df3ba34204850ac2448a9b176d
+        .. |codacy| image:: https://api.codacy.com/project/badge/Grade/249884df3ba34204850ac2448a9b176d
             :target: https://www.codacy.com/manual/LucaCappelletti94/keras_mixed_sequence?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LucaCappelletti94/keras_mixed_sequence&amp;utm_campaign=Badge_Grade
             :alt: Codacy Maintainability
         
