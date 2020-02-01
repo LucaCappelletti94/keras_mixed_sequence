@@ -65,6 +65,8 @@ class NumpySequence(Sequence):
         --------------
         Return new NumpySequence object.
         """
+        if array.dtype != float:
+            array = array.astype(float)
         self._array, self._batch_size = array, batch_size
         self._seed, self._elapsed_epochs = seed, elapsed_epochs
 
