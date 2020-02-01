@@ -16,7 +16,7 @@ As usual, just download it using pip:
 
 Tests Coverage
 ----------------------------------------------
-Since some software handling coverages sometime get
+Since some software handling coverages sometimes get
 slightly different results, here's three of them:
 
 |coveralls| |sonar_coverage| |code_climate_coverage|
@@ -43,7 +43,7 @@ First of all let's create a simple single-task model:
 
 Then we proceed to load or otherwise create the training data.
 Here there will be listed, in the future, some custom
-Sequence objects that have been created for the porpose
+Sequence objects that have been created for the purpose
 of being used alongside this library.
 
 .. code:: python
@@ -115,7 +115,7 @@ First of all let's create a simple multi-taks model:
 
 Then we proceed to load or otherwise create the training data.
 Here there will be listed, in the future, some custom
-Sequence objects that have been created for the porpose
+Sequence objects that have been created for the purpose
 of being used alongside this library.
 
 .. code:: python
@@ -184,7 +184,7 @@ Finally, we can train the model:
     :target: https://pepy.tech/badge/keras-mixed-sequence
     :alt: Pypi total project downloads
 
-.. |codacy|  image:: https://api.codacy.com/project/badge/Grade/249884df3ba34204850ac2448a9b176d
+.. |codacy| image:: https://api.codacy.com/project/badge/Grade/249884df3ba34204850ac2448a9b176d
     :target: https://www.codacy.com/manual/LucaCappelletti94/keras_mixed_sequence?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=LucaCappelletti94/keras_mixed_sequence&amp;utm_campaign=Badge_Grade
     :alt: Codacy Maintainability
 
