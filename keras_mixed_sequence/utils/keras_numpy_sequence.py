@@ -47,6 +47,7 @@ class NumpySequence(Sequence):
         batch_size: int,
         seed: int = 42,
         elapsed_epochs: int = 0,
+        dtype = float
     ):
         """Return new NumpySequence object.
 
@@ -60,13 +61,15 @@ class NumpySequence(Sequence):
             Starting seed to use if shuffling the dataset.
         elapsed_epochs: int = 0,
             Number of elapsed epochs to init state of generator.
+        dtype = float,
+            Type to which to cast the array if it is not already.
 
         Returns
         --------------
         Return new NumpySequence object.
         """
-        if array.dtype != float:
-            array = array.astype(float)
+        if array.dtype != dtype:
+            array = array.astype(dtype)
         self._array, self._batch_size = array, batch_size
         self._seed, self._elapsed_epochs = seed, elapsed_epochs
 
