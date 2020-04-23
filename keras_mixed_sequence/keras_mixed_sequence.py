@@ -110,4 +110,4 @@ class MixedSequence(Sequence):
                 for key, sequence in dictionary.items()
             } if len(dictionary) > 1 else next(iter(dictionary.values()))[idx]
             for dictionary in (self._x, self._y)
-        ] + ([] if tf.__version__.startswith("2.2") else [None]))
+        ] + ([] if tf.__version__.startswith("2.2") else [[None]]))
