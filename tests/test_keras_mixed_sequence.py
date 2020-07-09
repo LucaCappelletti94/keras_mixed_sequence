@@ -47,17 +47,15 @@ def test_keras_mixed_sequence():
         },
         batch_size=batch_size
     )
-    model.fit_generator(
+    model.fit(
         sequence,
         steps_per_epoch=sequence.steps_per_epoch,
         epochs=2,
         verbose=0,
-        use_multiprocessing=True,
-        workers=4,
         shuffle=True
     )
 
-    model.fit_generator(
+    model.fit(
         sequence,
         steps_per_epoch=sequence.steps_per_epoch,
         epochs=2,

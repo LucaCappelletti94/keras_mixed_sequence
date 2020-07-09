@@ -2,7 +2,7 @@ from typing import Dict, Union, Tuple
 import tensorflow as tf
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from .utils import NumpySequence
+from .utils import NumpySequence, sequence_length
 
 
 class MixedSequence(Sequence):
@@ -42,12 +42,17 @@ class MixedSequence(Sequence):
         ]
 
         # Retrieving sequence length
-        self._sequence_length = None
         self._batch_size = batch_size
-        for candidate in (*x.values(), *y.values()):
-            if isinstance(candidate, Sequence):
-                self._sequence_length = len(candidate)
-                break
+
+        candidate = list(y.values())[0]
+
+        if isinstance(candidate, Sequence):
+            self._sequence_length = len(candidate)
+        else:
+            self._sequence_length = sequence_length(
+                candidate,
+                self._batch_size
+            )
 
         # Veryfing that at least a sequence was provided
         if self._sequence_length is None:
@@ -68,9 +73,13 @@ class MixedSequence(Sequence):
         for dictionary in (x, y):
             for _, value in dictionary.items():
                 if len(self) != len(value):
-                    raise ValueError(
-                        "One or given sub-Sequence does not match length of other Sequences."
-                    )
+                    raise ValueError((
+                        "One or given sub-Sequence does not match the length "
+                        "of other Sequences.\nSpecifically, the expected length"
+                        " was {} and the found length was {}."
+                    ).format(
+                        len(self), len(value)
+                    ))
 
         self._x, self._y = x, y
 

@@ -16,3 +16,5 @@ __pycache__
 
 coverage.xml
 .pytest_cache
+fantom_data
+genomes
