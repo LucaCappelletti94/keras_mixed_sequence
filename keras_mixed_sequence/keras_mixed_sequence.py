@@ -122,9 +122,4 @@ class MixedSequence(Sequence):
                 self._x,
                 self._y
             ]
-        ] + (
-            []
-            if tf.__version__.startswith("2.2")
-            else
-            [{key: None for key in self._y}]
-        ))
+        ])
