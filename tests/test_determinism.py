@@ -1,6 +1,5 @@
 from keras_mixed_sequence import MixedSequence, VectorSequence
 import numpy as np
-from tqdm.auto import trange
 
 
 def test_simple_determinism():
@@ -9,7 +8,7 @@ def test_simple_determinism():
     number = 100000
     epochs = 100
     batch_size = 10000
-    
+
     x = np.arange(0, number, dtype=np.int64)
     y = np.random.randint(0, classes, size=number)
 
@@ -23,8 +22,8 @@ def test_simple_determinism():
         VectorSequence(y, batch_size)
     )
 
-    for epoch in trange(epochs, desc="Epochs", leave=False):
-        for step in trange(ms.steps_per_epoch, desc="Batches", leave=False):
+    for epoch in range(epochs, desc="Epochs", leave=False):
+        for step in range(ms.steps_per_epoch, desc="Batches", leave=False):
             xi, yi = ms[step]
             xj, yj = ms2[step]
             if epoch == 0:

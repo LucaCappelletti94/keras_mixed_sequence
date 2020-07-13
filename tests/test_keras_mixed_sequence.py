@@ -9,7 +9,7 @@ def build_model():
     output1 = Dense(units=10, activation="relu", name="output1")(input_layer)
     output2 = Dense(units=20, activation="relu", name="output2")(input_layer)
     model = Model(inputs=input_layer, outputs=[output1, output2])
-    model.compile()
+    model.compile(loss="mse", optimizer="nadam")
     return model
 
 
