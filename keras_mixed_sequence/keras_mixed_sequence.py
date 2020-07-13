@@ -1,107 +1,79 @@
-from typing import Dict, Union, Tuple
+from typing import Dict, Union, List
 import tensorflow as tf
-from tensorflow.keras.utils import Sequence
 import numpy as np
-from .utils import NumpySequence, sequence_length
+from .utils import Sequence, VectorSequence
 
 
 class MixedSequence(Sequence):
-    """Handles Mixed type input / output Sequences.
-
-    Usage examples
-    -----------------------------
-    """
+    """Handles Mixed type input / output Sequences."""
 
     def __init__(
         self,
-        x: Union[Dict[str, Union[np.ndarray, Sequence]], np.ndarray, Sequence],
-        y: Union[Dict[str, Union[np.ndarray, Sequence]], np.ndarray, Sequence],
-        batch_size: int
+        x: Union[Dict[str, Sequence], List[Sequence], Sequence],
+        y: Union[Dict[str, Sequence], List[Sequence], Sequence]
     ):
-        """Return new MixedSequence object.
+        """Create new MixedSequence object.
 
         Parameters
         -------------
-        x: Union[Dict[str, Union[np.ndarray, Sequence]], np.ndarray, Sequence],
-            Either an numpy array, a keras Sequence or a dictionary of either of them
-            to be returned as the input.
-        y: Union[Dict[str, Union[np.ndarray, Sequence]], np.ndarray, Sequence],
-            Either an numpy array, a keras Sequence or a dictionary of either of them
-            to be returned as the output.
-        batch_size: int,
-            Batch size for the batches.
-
-        Returns
-        -------------
-        Return new MixedSequence object.
+        x: Union[Dict[str, Sequence], List[Sequence], Sequence],
+            Either a Sequence, list of sequences or dictionary of Sequences.
+        y: Union[Dict[str, Sequence], List[Sequence], Sequence],
+            Either a Sequence, list of sequences or dictionary of Sequences.
         """
-        # Casting to dictionary if not one already
+        # Casting to dictionaries if not one already
         x, y = [
-            e if isinstance(e, Dict) else {0: e}
-            for e in (x, y)
+            seq
+            if isinstance(seq, Dict)
+            else {i: sub_seq for i, sub_seq in enumerate(seq)}
+            if isinstance(seq, List) else {0: seq}
+            for seq in (x, y)
         ]
 
-        # Retrieving sequence length
-        self._batch_size = batch_size
+        any_sequence = next(iter(y.values()))
 
-        candidate = list(y.values())[0]
-
-        if isinstance(candidate, Sequence):
-            self._sequence_length = len(candidate)
-        else:
-            self._sequence_length = sequence_length(
-                candidate,
-                self._batch_size
-            )
-
-        # Veryfing that at least a sequence was provided
-        if self._sequence_length is None:
-            raise ValueError("No Sequence was provided.")
-
-        # Converting numpy arrays to Numpy Sequences
-        x, y = [
-            {
-                key: NumpySequence(candidate, batch_size) if isinstance(
-                    candidate, np.ndarray) else candidate
-                for key, candidate in dictionary.items()
-            }
-            for dictionary in (x, y)
-        ]
+        super().__init__(
+            samples_number=any_sequence.samples_number,
+            batch_size=any_sequence.batch_size,
+            elapsed_epochs=any_sequence.elapsed_epochs
+        )
 
         # Checking that every value within the dictionaries
-        # is now a sequence with the same length.
+        # is now a sequence with the same length, batch size and starting epochs.
         for dictionary in (x, y):
-            for _, value in dictionary.items():
-                if len(self) != len(value):
+            for _, sequence in dictionary.items():
+                if len(self) != len(sequence):
                     raise ValueError((
-                        "One or given sub-Sequence does not match the length "
-                        "of other Sequences.\nSpecifically, the expected length"
-                        " was {} and the found length was {}."
+                        "One or more of the given Sequence length ({}) "
+                        "does not match the length of other Sequences ({})."
                     ).format(
-                        len(self), len(value)
+                        len(sequence), len(self)
+                    ))
+                if self.batch_size != sequence.batch_size:
+                    raise ValueError((
+                        "One or more of the given Sequence batch size ({}) "
+                        "does not match the batch size of other Sequences ({})."
+                    ).format(
+                        self.batch_size, sequence.batch_size
+                    ))
+                if self.elapsed_epochs != sequence.elapsed_epochs:
+                    raise ValueError((
+                        "One or more of the given Sequence elapsed_epochs ({}) "
+                        "does not match the elapsed_epochs of other Sequences ({})."
+                    ).format(
+                        self.elapsed_epochs, sequence.elapsed_epochs
                     ))
 
         self._x, self._y = x, y
 
     def on_epoch_end(self):
         """Call on_epoch_end callback on every sub-sequence."""
+        super().on_epoch_end()
         for dictionary in (self._x, self._y):
-            for _, value in dictionary.items():
-                value.on_epoch_end()
+            for sequence in dictionary.values():
+                sequence.on_epoch_end()
 
-    def __len__(self) -> int:
-        """Return length of Sequence."""
-        return self._sequence_length
-
-    @property
-    def steps_per_epoch(self) -> int:
-        """Return length of Sequence."""
-        return len(self)
-
-    def __getitem__(self, idx: int) -> Tuple[
-        Union[np.ndarray, Dict],
-        Union[np.ndarray, Dict]
-    ]:
+    def __getitem__(self, idx: int) -> List[Union[np.ndarray, Dict]]:
         """Return batch corresponding to given index.
 
         Parameters
@@ -113,13 +85,15 @@ class MixedSequence(Sequence):
         ---------------
         Return Tuple containing input and output batches.
         """
-        return tuple([
+        return [
             {
                 key: sequence[idx]
                 for key, sequence in dictionary.items()
-            } if len(dictionary) > 1 else next(iter(dictionary.values()))[idx]
+            }
+            if len(dictionary) > 1
+            else next(iter(dictionary.values()))[idx]
             for dictionary in [
                 self._x,
                 self._y
             ]
-        ])
+        ]

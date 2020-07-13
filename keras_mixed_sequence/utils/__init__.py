@@ -1,9 +1,7 @@
-from .sequence_length import sequence_length
-from .batch_slice import batch_slice
-from .keras_numpy_sequence import NumpySequence
+from .sequence import Sequence
+from .vector_sequence import VectorSequence
 
 __all__ = [
-    "sequence_length",
-    "batch_slice",
-    "NumpySequence"
+    "Sequence",
+    "VectorSequence"
 ]
