@@ -42,12 +42,12 @@ class MixedSequence(Sequence):
         # is now a sequence with the same length, batch size and starting epochs.
         for dictionary in (x, y):
             for _, sequence in dictionary.items():
-                if len(self) != len(sequence):
+                if self.samples_number != sequence.samples_number:
                     raise ValueError((
                         "One or more of the given Sequence length ({}) "
                         "does not match the length of other Sequences ({})."
                     ).format(
-                        len(sequence), len(self)
+                        sequence.samples_number, self.samples_number
                     ))
                 if self.batch_size != sequence.batch_size:
                     raise ValueError((

@@ -26,6 +26,14 @@ class Sequence(KerasSequence):
         --------------
         Return new Sequence object.
         """
+        if not isinstance(samples_number, int) or samples_number == 0:
+            raise ValueError(
+                "Given sequence length must be a strictly positive integer."
+            )
+        if not isinstance(batch_size, int) or batch_size == 0:
+            raise ValueError(
+                "Given batch size must be a strictly positive integer."
+            )
         if samples_number < batch_size:
             raise ValueError((
                 "Given sequence length ({}) "
@@ -34,13 +42,9 @@ class Sequence(KerasSequence):
                 samples_number,
                 batch_size
             ))
-        if not isinstance(samples_number, int) or samples_number == 0:
+        if not isinstance(elapsed_epochs, int) or elapsed_epochs < 0:
             raise ValueError(
-                "Given sequence length must be a strictly positive integer."
-            )
-        if not isinstance(batch_size, int) or batch_size == 0:
-            raise ValueError(
-                "Given batch size must be a strictly positive integer."
+                "Given elapsed epochs must be a non-negative integer."
             )
         self._samples_number = samples_number
         self._batch_size = batch_size
