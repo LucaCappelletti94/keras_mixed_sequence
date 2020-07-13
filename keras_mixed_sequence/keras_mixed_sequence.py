@@ -85,7 +85,7 @@ class MixedSequence(Sequence):
         ---------------
         Return Tuple containing input and output batches.
         """
-        return [
+        return tuple([
             {
                 key: sequence[idx]
                 for key, sequence in dictionary.items()
@@ -96,4 +96,4 @@ class MixedSequence(Sequence):
                 self._x,
                 self._y
             ]
-        ]
+        ])

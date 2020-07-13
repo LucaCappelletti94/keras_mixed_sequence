@@ -22,8 +22,8 @@ def test_simple_determinism():
         VectorSequence(y, batch_size)
     )
 
-    for epoch in range(epochs, desc="Epochs", leave=False):
-        for step in range(ms.steps_per_epoch, desc="Batches", leave=False):
+    for epoch in range(epochs):
+        for step in range(ms.steps_per_epoch):
             xi, yi = ms[step]
             xj, yj = ms2[step]
             if epoch == 0:
