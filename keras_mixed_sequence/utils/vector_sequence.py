@@ -41,10 +41,10 @@ class VectorSequence(Sequence):
 
     def on_epoch_end(self):
         """Shuffle private numpy array on every epoch end."""
+        super().on_epoch_end()
         state = np.random.RandomState(  # pylint: disable=no-member
             seed=self._seed + self._elapsed_epochs
         )
-        self._elapsed_epochs += 1
         indices = np.arange(self.samples_number)
         state.shuffle(indices)
         self._shuffled = self._vector[indices]
