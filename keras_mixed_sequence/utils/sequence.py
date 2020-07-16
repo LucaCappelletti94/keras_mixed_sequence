@@ -52,7 +52,6 @@ class Sequence(KerasSequence):
 
     def on_epoch_end(self):
         """Handled the on epoch end callback."""
-        pass
 
     @property
     def batch_size(self) -> int:

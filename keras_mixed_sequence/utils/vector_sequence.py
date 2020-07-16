@@ -1,5 +1,6 @@
-from .sequence import Sequence
+"""Module offering object to handle Vector Keras Sequences."""
 import numpy as np
+from .sequence import Sequence
 
 
 class VectorSequence(Sequence):

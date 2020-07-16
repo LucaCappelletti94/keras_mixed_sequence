@@ -1,7 +1,7 @@
-from typing import Dict, Union, List
-import tensorflow as tf
+"""Module offering object to deal with Mixed Keras Sequences."""
+from typing import Dict, List, Tuple, Union
 import numpy as np
-from .utils import Sequence, VectorSequence
+from .utils import Sequence
 
 
 class MixedSequence(Sequence):
@@ -73,7 +73,10 @@ class MixedSequence(Sequence):
             for sequence in dictionary.values():
                 sequence.on_epoch_end()
 
-    def __getitem__(self, idx: int) -> List[Union[np.ndarray, Dict]]:
+    def __getitem__(self, idx: int) -> Tuple[
+        Union[np.ndarray, Dict],
+        Union[np.ndarray, Dict]
+    ]:
         """Return batch corresponding to given index.
 
         Parameters
