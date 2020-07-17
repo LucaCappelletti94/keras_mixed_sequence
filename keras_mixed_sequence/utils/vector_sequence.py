@@ -31,7 +31,7 @@ class VectorSequence(Sequence):
         Return new Sequence object.
         """
         super().__init__(
-            vector.shape[0],
+            len(vector),
             batch_size,
             elapsed_epochs
         )
