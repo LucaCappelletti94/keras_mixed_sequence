@@ -61,4 +61,14 @@ class VectorSequence(Sequence):
         ---------------------
         Return numpy array corresponding to given batch index.
         """
+        if idx >= self.steps_per_epoch:
+            raise ValueError(
+                (
+                    "Given index {idx} is greater than the number "
+                    "of steps per epoch of this sequence {steps}."
+                ).format(
+                    idx=idx,
+                    steps=self.steps_per_epoch
+                )
+            )
         return self._shuffled[idx * self.batch_size: (idx + 1) * self.batch_size]

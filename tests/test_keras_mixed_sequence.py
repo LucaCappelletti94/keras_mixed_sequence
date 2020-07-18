@@ -50,3 +50,6 @@ def test_illegal_parameters_keras_mixed_sequence():
             VectorSequence(np.random.randint(2, size=(60, 10)), 50),
             VectorSequence(np.random.randint(2, size=(100, 10)), 50)
         )
+
+    with pytest.raises(ValueError):
+        VectorSequence(np.random.randint(2, size=(60, 10)), 50)[10000]
