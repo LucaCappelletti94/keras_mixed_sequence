@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: keras-mixed-sequence
-Version: 1.0.13
+Version: 1.0.14
 Summary: Lazily loading mixed sequences using Keras Sequence, focused on multi-task models.
 Home-page: https://github.com/LucaCappelletti94/keras_mixed_sequence
 Author: Luca Cappelletti
