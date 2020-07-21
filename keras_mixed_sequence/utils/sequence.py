@@ -36,7 +36,7 @@ class Sequence(KerasSequence):
                 "Given elapsed epochs must be a non-negative integer."
             )
         self._samples_number = samples_number
-        self.batch_size = batch_size
+        Sequence.batch_size.fset(self, batch_size) # pylint: disable=no-member
         self._elapsed_epochs = elapsed_epochs
 
     def on_epoch_end(self):

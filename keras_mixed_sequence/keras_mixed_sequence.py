@@ -73,6 +73,19 @@ class MixedSequence(Sequence):
             for sequence in dictionary.values():
                 sequence.on_epoch_end()
 
+    @property
+    def batch_size(self) -> int:
+        """Return batch size property of the sequence."""
+        return Sequence.batch_size.fget(self)  # pylint: disable=no-member
+
+    @batch_size.setter
+    def batch_size(self, batch_size: int) -> int:
+        """Set batch size value to all sub sequences."""
+        Sequence.batch_size.fset(self, batch_size)  # pylint: disable=no-member
+        for dictionary in (self._x, self._y):
+            for sequence in dictionary.values():
+                sequence.batch_size = batch_size
+
     def __getitem__(self, idx: int) -> Tuple[
         Union[np.ndarray, Dict],
         Union[np.ndarray, Dict]

@@ -32,6 +32,7 @@ def test_keras_mixed_sequence():
         shuffle=True
     )
 
+
 def test_illegal_parameters_keras_mixed_sequence():
     with pytest.raises(ValueError):
         MixedSequence(
@@ -41,7 +42,8 @@ def test_illegal_parameters_keras_mixed_sequence():
 
     with pytest.raises(ValueError):
         MixedSequence(
-            VectorSequence(np.random.randint(2, size=(100, 10)), 50, elapsed_epochs=50),
+            VectorSequence(np.random.randint(
+                2, size=(100, 10)), 50, elapsed_epochs=50),
             VectorSequence(np.random.randint(2, size=(100, 10)), 50)
         )
 
