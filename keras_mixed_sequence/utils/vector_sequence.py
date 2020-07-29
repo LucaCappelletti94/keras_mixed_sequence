@@ -37,17 +37,21 @@ class VectorSequence(Sequence):
         )
         self._seed = seed
         self._vector = vector
-        self._shuffled = vector.copy()
+        self._shuffled = self._shuffle()
 
-    def on_epoch_end(self):
-        """Shuffle private numpy array on every epoch end."""
-        super().on_epoch_end()
+    def _shuffle(self):
+        """Shuffle data."""
         state = np.random.RandomState(  # pylint: disable=no-member
             seed=self._seed + self._elapsed_epochs
         )
         indices = np.arange(self.samples_number)
         state.shuffle(indices)
-        self._shuffled = self._vector[indices]
+        return self._vector[indices]
+
+    def on_epoch_end(self):
+        """Shuffle private numpy array on every epoch end."""
+        super().on_epoch_end()
+        self._shuffled = self._shuffle()
 
     def __getitem__(self, idx: int) -> np.ndarray:
         """Return batch corresponding to given index.
