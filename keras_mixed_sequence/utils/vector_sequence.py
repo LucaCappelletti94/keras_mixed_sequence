@@ -11,7 +11,8 @@ class VectorSequence(Sequence):
         vector: np.ndarray,
         batch_size: int,
         seed: int = 42,
-        elapsed_epochs: int = 0
+        elapsed_epochs: int = 0,
+        shuffle: bool = True
     ):
         """Return new Sequence object.
 
@@ -25,6 +26,8 @@ class VectorSequence(Sequence):
             Random seed to use for reproducibility.
         elapsed_epochs: int = 0,
             Number of elapsed epochs to init state of generator.
+        shuffle: bool = True,
+            Wethever to shuffle or not the sequence.
 
         Returns
         -------------------------------------
@@ -37,10 +40,13 @@ class VectorSequence(Sequence):
         )
         self._seed = seed
         self._vector = vector
-        self._shuffled = self._shuffle()
+        self._shuffle = shuffle
+        self._shuffled = self._shuffle_vector()
 
-    def _shuffle(self):
+    def _shuffle_vector(self):
         """Shuffle data."""
+        if not self._shuffle:
+            return self._vector
         state = np.random.RandomState(  # pylint: disable=no-member
             seed=self._seed + self._elapsed_epochs
         )
@@ -51,7 +57,7 @@ class VectorSequence(Sequence):
     def on_epoch_end(self):
         """Shuffle private numpy array on every epoch end."""
         super().on_epoch_end()
-        self._shuffled = self._shuffle()
+        self._shuffled = self._shuffle_vector()
 
     def __getitem__(self, idx: int) -> np.ndarray:
         """Return batch corresponding to given index.
