@@ -7,7 +7,7 @@ class Sequence(KerasSequence):
 
     def __init__(
         self,
-        samples_number: int,
+        sample_number: int,
         batch_size: int,
         elapsed_epochs: int = 0
     ):
@@ -15,7 +15,7 @@ class Sequence(KerasSequence):
 
         Parameters
         --------------
-        samples_number: int,
+        sample_number: int,
             Length of the sequence to be split into batches.
         batch_size: int,
             Batch size for the current Sequence.
@@ -26,7 +26,7 @@ class Sequence(KerasSequence):
         --------------
         Return new Sequence object.
         """
-        if not isinstance(samples_number, int) or samples_number == 0:
+        if not isinstance(sample_number, int) or sample_number == 0:
             raise ValueError(
                 "Given sequence length must be a strictly positive integer."
             )
@@ -35,7 +35,7 @@ class Sequence(KerasSequence):
             raise ValueError(
                 "Given elapsed epochs must be a non-negative integer."
             )
-        self._samples_number = samples_number
+        self._sample_number = sample_number
         Sequence.batch_size.fset(self, batch_size) # pylint: disable=no-member
         self._elapsed_epochs = elapsed_epochs
 
@@ -55,12 +55,12 @@ class Sequence(KerasSequence):
             raise ValueError(
                 "Given batch size must be a strictly positive integer."
             )
-        if self._samples_number < batch_size:
+        if self._sample_number < batch_size:
             raise ValueError((
                 "Given sequence length ({}) "
                 "is smaller than a single batch of size ({})."
             ).format(
-                self._samples_number,
+                self._sample_number,
                 batch_size
             ))
         self._batch_size = batch_size
@@ -75,13 +75,13 @@ class Sequence(KerasSequence):
         return self._elapsed_epochs
 
     @property
-    def samples_number(self):
+    def sample_number(self):
         """Return total number of samples in sequence."""
-        return self._samples_number
+        return self._sample_number
 
     def __len__(self) -> int:
         """Return length of Sequence."""
-        return int(np.ceil(self.samples_number / self.batch_size))
+        return int(np.ceil(self.sample_number / self.batch_size))
 
     @property
     def steps_per_epoch(self):

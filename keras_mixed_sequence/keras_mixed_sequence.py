@@ -33,7 +33,7 @@ class MixedSequence(Sequence):
         any_sequence = next(iter(y.values()))
 
         super().__init__(
-            samples_number=any_sequence.samples_number,
+            sample_number=any_sequence.sample_number,
             batch_size=any_sequence.batch_size,
             elapsed_epochs=any_sequence.elapsed_epochs
         )
@@ -42,12 +42,12 @@ class MixedSequence(Sequence):
         # is now a sequence with the same length, batch size and starting epochs.
         for dictionary in (x, y):
             for _, sequence in dictionary.items():
-                if self.samples_number != sequence.samples_number:
+                if self.sample_number != sequence.sample_number:
                     raise ValueError((
                         "One or more of the given Sequence length ({}) "
                         "does not match the length of other Sequences ({})."
                     ).format(
-                        sequence.samples_number, self.samples_number
+                        sequence.sample_number, self.sample_number
                     ))
                 if self.batch_size != sequence.batch_size:
                     raise ValueError((

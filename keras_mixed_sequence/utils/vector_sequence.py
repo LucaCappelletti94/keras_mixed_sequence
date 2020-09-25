@@ -50,7 +50,7 @@ class VectorSequence(Sequence):
         state = np.random.RandomState(  # pylint: disable=no-member
             seed=self._seed + self._elapsed_epochs
         )
-        indices = np.arange(self.samples_number)
+        indices = np.arange(self.sample_number)
         state.shuffle(indices)
         return self._vector[indices]
 
