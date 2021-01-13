@@ -86,6 +86,11 @@ class MixedSequence(Sequence):
             for sequence in dictionary.values():
                 sequence.batch_size = batch_size
 
+    @property
+    def features(self) -> int:
+        """Return number of features."""
+        return self[0][0].shape[1]
+
     def __getitem__(self, idx: int) -> Tuple[
         Union[np.ndarray, Dict],
         Union[np.ndarray, Dict]

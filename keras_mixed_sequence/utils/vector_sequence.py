@@ -59,6 +59,11 @@ class VectorSequence(Sequence):
         super().on_epoch_end()
         self._shuffled = self._shuffle_vector()
 
+    @property
+    def features(self) -> int:
+        """Return number of features."""
+        return self[0][0].shape[1]
+
     def __getitem__(self, idx: int) -> np.ndarray:
         """Return batch corresponding to given index.
 
