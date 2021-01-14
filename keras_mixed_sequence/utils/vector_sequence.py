@@ -10,7 +10,7 @@ class VectorSequence(Sequence):
         self,
         vector: np.ndarray,
         batch_size: int,
-        seed: int = 42,
+        random_state: int = 42,
         elapsed_epochs: int = 0,
         shuffle: bool = True
     ):
@@ -22,8 +22,8 @@ class VectorSequence(Sequence):
             Numpy array with data to be split into batches.
         batch_size: int,
             Batch size for the current Sequence.
-        seed: int = 42,
-            Random seed to use for reproducibility.
+        random_state: int = 42,
+            Random random_state to use for reproducibility.
         elapsed_epochs: int = 0,
             Number of elapsed epochs to init state of generator.
         shuffle: bool = True,
@@ -38,7 +38,7 @@ class VectorSequence(Sequence):
             batch_size,
             elapsed_epochs
         )
-        self._seed = seed
+        self._random_state = random_state
         self._vector = vector
         self._shuffle = shuffle
         self._shuffled = self._shuffle_vector()
@@ -48,7 +48,7 @@ class VectorSequence(Sequence):
         if not self._shuffle:
             return self._vector
         state = np.random.RandomState(  # pylint: disable=no-member
-            seed=self._seed + self._elapsed_epochs
+            seed=self._random_state + self._elapsed_epochs
         )
         indices = np.arange(self.sample_number)
         state.shuffle(indices)
