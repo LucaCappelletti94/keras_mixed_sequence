@@ -32,6 +32,15 @@ def test_keras_mixed_sequence():
         shuffle=True
     )
 
+    X, y = sequence.rasterize()
+
+    model.fit(
+        X, y,
+        epochs=2,
+        verbose=0,
+        shuffle=True
+    )
+
 
 def test_illegal_parameters_keras_mixed_sequence():
     with pytest.raises(ValueError):

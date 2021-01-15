@@ -1,6 +1,7 @@
 """Module offering object to deal with Mixed Keras Sequences."""
 from typing import Dict, List, Tuple, Union
 import numpy as np
+from tqdm.auto import trange
 from .utils import Sequence
 
 
@@ -90,6 +91,47 @@ class MixedSequence(Sequence):
     def features(self) -> int:
         """Return number of features."""
         return self[0][0].shape[1]
+
+    def rasterize(self, verbose: bool = True) -> Tuple[
+        Union[np.ndarray, Dict],
+        Union[np.ndarray, Dict]
+    ]:
+        """Return rasterized sequence.
+
+        Parameters
+        -----------------------
+        verbose: bool = True,
+            Wether to show rendering loading bar.
+        """
+        return tuple([
+            {
+                key: np.vstack([
+                    sequence[idx]
+                    for idx in trange(
+                        self.steps_per_epoch,
+                        desc="Rendering sequence.",
+                        disable=not verbose,
+                        leave=False
+                    )
+                ])
+                for key, sequence in dictionary.items()
+            }
+            if len(dictionary) > 1
+            else np.vstack([
+                sequence[idx]
+                for sequence in iter(dictionary.values())
+                for idx in trange(
+                    self.steps_per_epoch,
+                    desc="Rendering sequence.",
+                    disable=not verbose,
+                    leave=False
+                )
+            ])
+            for dictionary in [
+                self._x,
+                self._y
+            ]
+        ])
 
     def __getitem__(self, idx: int) -> Tuple[
         Union[np.ndarray, Dict],
