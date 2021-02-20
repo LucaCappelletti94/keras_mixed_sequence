@@ -1,2 +1,2 @@
 """Current version of package keras_mixed_sequence."""
-__version__ = "1.0.23"
+__version__ = "1.0.24"

@@ -62,7 +62,8 @@ setup(
     tests_require=test_deps,
     # Add here the package dependencies
     install_requires=[
-        "tensorflow"
+        "tensorflow",
+        "tqdm"
     ],
     extras_require=extras,
 )
