@@ -22,6 +22,10 @@ class MixedSequence(Sequence):
         y: Union[Dict[str, Sequence], List[Sequence], Sequence],
             Either a Sequence, list of sequences or dictionary of Sequences.
         """
+        # Store if the input / outputs are starting out as dictionaries
+        self._inputs_are_dictionaries = isinstance(x, Dict)
+        self._outputs_are_dictionaries = isinstance(y, Dict)
+
         # Casting to dictionaries if not one already
         x, y = [
             seq
@@ -148,15 +152,21 @@ class MixedSequence(Sequence):
         ---------------
         Return Tuple containing input and output batches.
         """
-        return tuple([
+        return tuple((
             {
                 key: sequence[idx]
                 for key, sequence in dictionary.items()
             }
+            if are_dictionaries
+            else
+            tuple((
+                sequence[idx]
+                for sequence in dictionary.values()
+            ))
             if len(dictionary) > 1
             else next(iter(dictionary.values()))[idx]
-            for dictionary in [
-                self._x,
-                self._y
-            ]
-        ])
+            for dictionary, are_dictionaries in (
+                (self._x, self._inputs_are_dictionaries),
+                (self._y, self._outputs_are_dictionaries)
+            )
+        ))
