@@ -12,9 +12,6 @@ def test_sequence():
     with pytest.raises(ValueError):
         Sequence(10, 10, -1)
 
-    with pytest.raises(ValueError):
-        Sequence(5, 10, 0)
-
 
 def test_sequence_reset():
     seq = Sequence(50, 10, 5)

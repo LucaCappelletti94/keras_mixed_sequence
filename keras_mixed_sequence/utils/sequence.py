@@ -55,14 +55,6 @@ class Sequence(KerasSequence):
             raise ValueError(
                 "Given batch size must be a strictly positive integer."
             )
-        if self._sample_number < batch_size:
-            raise ValueError((
-                "Given sequence length ({}) "
-                "is smaller than a single batch of size ({})."
-            ).format(
-                self._sample_number,
-                batch_size
-            ))
         self._batch_size = batch_size
 
     def reset(self):

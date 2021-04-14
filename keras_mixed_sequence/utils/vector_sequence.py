@@ -72,6 +72,11 @@ class VectorSequence(Sequence):
         idx: int,
             Index corresponding to batch to be rendered.
 
+        Raises
+        ---------------------
+        ValueError,
+            If given batch index is greater than amount of batches.
+
         Returns
         ---------------------
         Return numpy array corresponding to given batch index.
