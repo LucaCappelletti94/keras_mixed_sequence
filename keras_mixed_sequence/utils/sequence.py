@@ -1,5 +1,9 @@
-from tensorflow.keras.utils import Sequence as KerasSequence
+"""Submodule providing abstract Sequence class wrapper."""
+import gc
+
 import numpy as np
+from tensorflow.keras import backend as K
+from tensorflow.keras.utils import Sequence as KerasSequence
 
 
 class Sequence(KerasSequence):
@@ -42,6 +46,9 @@ class Sequence(KerasSequence):
     def on_epoch_end(self):
         """Handled the on epoch end callback."""
         self._elapsed_epochs += 1
+        # Housekeeping
+        gc.collect()
+        K.clear_session()
 
     @property
     def batch_size(self) -> int:
